@@ -20,7 +20,7 @@ public class RightShoot extends LinearOpMode {
 
     private final Pose start = poseFactory.of(56, 8, 270);
     private final Pose path1 = poseFactory.of(24.75, 33.75, 270);
-    private final Pose point2 = poseFactory.of(3.75, 98.75, -72.8381);
+    private final Pose point2 = poseFactory.of(3.75, 95.75, -72.8381);
 
     public Path path1() {
         return Paths.line(start, path1).linear(start, path1);
@@ -67,9 +67,12 @@ public class RightShoot extends LinearOpMode {
             follower.update();
         }
 
-        // Stop shooterServo1 after shooting phase completes
+        // Stop shooterServo1 and shooter after shooting phase completes
         if (Constants.shooterServo1 != null) {
             Constants.shooterServo1.setPower(0.0);
+        }
+        if (Constants.shooter != null) {
+            Constants.shooter.setPower(0.0);
         }
 
         // 3. Robot follows path1
