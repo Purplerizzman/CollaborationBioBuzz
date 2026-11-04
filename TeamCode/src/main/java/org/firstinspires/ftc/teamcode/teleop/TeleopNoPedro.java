@@ -166,7 +166,7 @@ public class TeleopNoPedro extends OpMode {
         shooterServo1.setPower(shooterServoPower);
 
         // 5. Shooter Motor Control (Runs continuously at full power after START)
-        shooter.setPower(0.5);
+        shooter.setPower(0.55);
 
         // Telemetry readout
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftFrontPower, rightFrontPower);

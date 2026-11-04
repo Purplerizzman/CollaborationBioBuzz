@@ -24,6 +24,8 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -31,6 +33,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import org.firstinspires.ftc.teamcode.RobotConfig;
 
 /*
  * This file includes a teleop (driver-controlled) file for the goBILDA® StarterBot with Mecanum
@@ -62,13 +65,6 @@ public class Teleop2 extends OpMode {
     double rightBackPower;
 
 
-
-    private double shooterP = 150;
-    private double shooterI = 0;
-    private double shooterD = 0;
-    private double shooterF = 15;
-
-
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -78,6 +74,9 @@ public class Teleop2 extends OpMode {
          * Initialize the hardware variables using the exact names
          * assigned during your robot configuration on the Driver Hub.
          */
+
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
         leftFrontDrive  = hardwareMap.get(DcMotor.class, "LFD");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "RFD");
         leftBackDrive   = hardwareMap.get(DcMotor.class, "LRD");
@@ -109,9 +108,9 @@ public class Teleop2 extends OpMode {
         intake1.setZeroPowerBehavior(BRAKE);
 
         /*
-         * Set launcher to RUN_WITHOUT_ENCODER runmode for full power.
+         * Set launcher PIDF coefficients.
          */
-        PIDFCoefficients pidfNew = new PIDFCoefficients(shooterP,shooterI,shooterD,shooterF);
+        PIDFCoefficients pidfNew = new PIDFCoefficients(RobotConfig.shooterP, RobotConfig.shooterI, RobotConfig.shooterD, RobotConfig.shooterF);
         shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfNew);
 
         /*
@@ -176,7 +175,7 @@ public class Teleop2 extends OpMode {
         shooterServo1.setPower(shooterServoPower);
 
         // 5. Shooter Motor Control (Runs continuously at full power after START)
-        shooter.setVelocity(1300);
+        shooter.setVelocity(RobotConfig.shooterVelocity);
 
         // Telemetry readout
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftFrontPower, rightFrontPower);

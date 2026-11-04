@@ -20,7 +20,7 @@ public class LeftShoot extends LinearOpMode {
 
     private final Pose start = poseFactory.of(60.4477, 135.7038, 90);
     private final Pose path1 = poseFactory.of(60.2992, 112.0773, 180);
-    private final Pose point2 = poseFactory.of(4.9247, 110.7997, 1.3216);
+    private final Pose point2 = poseFactory.of(4.9247, 110.7997, -85.3216);
 
     public Path path1() {
         return Paths.line(start, path1).linear(start, path1);
@@ -45,7 +45,14 @@ public class LeftShoot extends LinearOpMode {
 
         // 1. Shooter starts when play is pressed
         if (Constants.shooter != null) {
-            Constants.shooter.setPower(.6);
+            Constants.shooter.setPower(.56);
+        }
+
+        // 10 second pause before shooting loop
+        ElapsedTime pauseTimer = new ElapsedTime();
+        pauseTimer.reset();
+        while (opModeIsActive() && pauseTimer.seconds() < 10.0) {
+            follower.update();
         }
 
         // 2. shooterServo1 spins then waits .5 seconds for 5 seconds total
@@ -55,7 +62,7 @@ public class LeftShoot extends LinearOpMode {
         while (opModeIsActive() && shootTimer.seconds() < 5.0) {
             double elapsed = shootTimer.seconds();
             // 1.0 second cycle: spin for first 0.5s, wait for next 0.5s
-            if ((elapsed % 1.0) < 0.5) {
+            if ((elapsed % 1.0) < 1.5) {
                 if (Constants.shooterServo1 != null) {
                     Constants.shooterServo1.setPower(1.0);
                 }
@@ -67,12 +74,9 @@ public class LeftShoot extends LinearOpMode {
             follower.update();
         }
 
-        // Stop shooterServo1 and shooter after shooting phase completes
+        // Stop shooterServo1 after shooting phase completes
         if (Constants.shooterServo1 != null) {
             Constants.shooterServo1.setPower(0.0);
-        }
-        if (Constants.shooter != null) {
-            Constants.shooter.setPower(0.0);
         }
 
         // 3. Robot follows path1
