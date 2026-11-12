@@ -20,7 +20,7 @@ public class LeftShoot extends LinearOpMode {
 
     private final Pose start = poseFactory.of(60.4477, 135.7038, 90);
     private final Pose path1 = poseFactory.of(60.2992, 112.0773, 180);
-    private final Pose point2 = poseFactory.of(4.9247, 110.7997, -85.3216);
+    private final Pose point2 = poseFactory.of(21.3247, 120.7997, -1.3216);
 
     public Path path1() {
         return Paths.line(start, path1).linear(start, path1);
@@ -45,7 +45,7 @@ public class LeftShoot extends LinearOpMode {
 
         // 1. Shooter starts when play is pressed
         if (Constants.shooter != null) {
-            Constants.shooter.setPower(.56);
+            Constants.shooter.setPower(.52);
         }
 
         // 10 second pause before shooting loop

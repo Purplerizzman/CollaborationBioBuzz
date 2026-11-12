@@ -20,7 +20,7 @@ public class RightShoot extends LinearOpMode {
 
     private final Pose start = poseFactory.of(56, 8, 270);
     private final Pose path1 = poseFactory.of(24.75, 33.75, 270);
-    private final Pose point2 = poseFactory.of(3.75, 95.75, -85.8381);
+    private final Pose point2 = poseFactory.of(3.75, 85.75, -85.8381);
 
     public Path path1() {
         return Paths.line(start, path1).linear(start, path1);
@@ -45,17 +45,17 @@ public class RightShoot extends LinearOpMode {
 
         // 1. Shooter starts when play is pressed
         if (Constants.shooter != null) {
-            Constants.shooter.setPower(.55);
+            Constants.shooter.setPower(.54);
         }
 
         // 2. shooterServo1 spins then waits .5 seconds for 5 seconds total
         ElapsedTime shootTimer = new ElapsedTime();
         shootTimer.reset();
 
-        while (opModeIsActive() && shootTimer.seconds() < 5.0) {
+        while (opModeIsActive() && shootTimer.seconds() < 10.0) {
             double elapsed = shootTimer.seconds();
             // 1.0 second cycle: spin for first 0.5s, wait for next 0.5s
-            if ((elapsed % 1.0) < 0.5) {
+            if ((elapsed % 1.0) < 1.0) {
                 if (Constants.shooterServo1 != null) {
                     Constants.shooterServo1.setPower(1.0);
                 }
