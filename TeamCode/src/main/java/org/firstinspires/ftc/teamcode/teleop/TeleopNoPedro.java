@@ -30,6 +30,9 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.RobotConfig;
 
 /*
  * This file includes a teleop (driver-controlled) file for the goBILDA® StarterBot with Mecanum
@@ -53,6 +56,9 @@ public class TeleopNoPedro extends OpMode {
     private CRServo lsIntake;
     private CRServo rsIntake;
     private CRServo shooterServo1;
+    private Servo led1;
+    private Servo led2;
+    private WebcamName cam;
 
 // Power tracking variables for telemetry and control
     double leftFrontPower;
@@ -80,6 +86,22 @@ public class TeleopNoPedro extends OpMode {
         lsIntake        = hardwareMap.get(CRServo.class, "LSIntake");
         rsIntake        = hardwareMap.get(CRServo.class, "RSIntake");
         shooterServo1   = hardwareMap.get(CRServo.class, "ShooterServo1");
+
+        try {
+            led1 = hardwareMap.get(Servo.class, RobotConfig.LED1_NAME);
+        } catch (IllegalArgumentException ignored) {
+            telemetry.addData("Config", "Missing or wrong type for %s", RobotConfig.LED1_NAME);
+        }
+        try {
+            led2 = hardwareMap.get(Servo.class, RobotConfig.LED2_NAME);
+        } catch (IllegalArgumentException ignored) {
+            telemetry.addData("Config", "Missing or wrong type for %s", RobotConfig.LED2_NAME);
+        }
+        try {
+            cam = hardwareMap.get(WebcamName.class, RobotConfig.CAM_NAME);
+        } catch (IllegalArgumentException ignored) {
+            telemetry.addData("Config", "Missing webcam %s", RobotConfig.CAM_NAME);
+        }
 
         /*
          * To drive forward, most robots need the motor on one side to be reversed,
@@ -175,6 +197,9 @@ public class TeleopNoPedro extends OpMode {
         telemetry.addData("Shooter Power", shooter.getPower());
         telemetry.addData("Left Servo Power", lsIntake.getPower());
         telemetry.addData("Right Servo Power", rsIntake.getPower());
+        telemetry.addData("Config led1", led1 != null ? "OK" : "NOT FOUND");
+        telemetry.addData("Config led2", led2 != null ? "OK" : "NOT FOUND");
+        telemetry.addData("Config cam", cam != null ? "OK" : "NOT FOUND");
         telemetry.update();
     }
 
